@@ -1,0 +1,86 @@
+﻿@using System.Security.Policy
+@using LobbyMVC5.DAL
+@model LobbyMVC5.Models.ViewLobbyViewModel
+
+@{
+    ViewData["Title"] = Resources.Resources.LobbyStr;
+}
+
+<div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-1">
+            <h2>@Resources.Resources.LobbyStr</h2>
+            <table class="table table-responsive table-striped">
+
+                <tr>
+                    <td><label asp-for="Id"></label></td>
+                    <td>@Model.Id</td>
+                </tr>
+                <tr>
+                    <td><label asp-for="CreationDate"></label></td>
+                    <td>@Model.CreationDate.ToString("dd-MM-yyyy HH:mm")</td>
+                </tr>
+                <tr>
+                    <td><label asp-for="Name"></label></td>
+                    <td>@Model.Name</td>
+                </tr>
+                <tr>
+                    <td><label asp-for="Author"></label></td>
+                    <td>@Model.Author.UserName</td>
+                </tr>
+                <tr>
+                    <td><label asp-for="CurrentUsersAmount"></label></td>
+                    <td id="usersInLobbyAmount">@Model.CurrentUsersAmount</td>
+                </tr>
+                <tr>
+                    <td><label asp-for="RequiredUsersAmount"></label></td>
+                    <td>@Model.RequiredUsersAmount</td>
+                </tr>
+                <tr>
+                    <td><label asp-for="State"></label></td>
+                    <td id="lobbyState">@Model.State</td>
+                </tr>
+
+            </table>
+
+            <a id="startBtn" onclick="startLobby(@Model.Id);" class="btn btn-default">@Resources.Resources.StartLobby</a>
+            <a id="joinBtn" onclick="joinLobby(@Model.Id, '@User.Identity.Name');" class="btn btn-default">@Resources.Resources.JoinLobby</a>
+            <a id="exitBtn" onclick="disjoinLobby(@Model.Id, '@User.Identity.Name');" class="btn btn-default">@Resources.Resources.LeaveLobby</a>
+            <p id="myPenaltyIsActive" style="color: red;" hidden="hidden">@Resources.Resources.YourPenaltyIsActive</p>
+        </div>
+
+        <div class="col-md-4 col-md-offset-1">
+            <h2>@Resources.Resources.CurrentUsersInLobby</h2>
+            <p id="usersInLobbyWait">@Resources.Resources.PleaseWait</p>
+            <table id="usersInLobbyTable" class="table table-responsive table-striped"></table>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        var amIAuthor = @((Model.Author.UserName.ToLower() == User.Identity.Name.ToLower()).ToString().ToLower());
+        var isLobbyWaiting = @((Model.State == LobbyState.Waiting).ToString().ToLower());
+        var isLobbyFinished = @((Model.State == LobbyState.Finished).ToString().ToLower());
+        var isLobbyActive = @((Model.State == LobbyState.Active).ToString().ToLower());
+        var amIJoined = @((Model.CurrentUsersIds.Contains(Model.CurrentViewerUserId.ToString())).ToString().ToLower());
+        var isEnoughUsers = @((Model.RequiredUsersAmount <= Model.CurrentUsersAmount).ToString().ToLower());
+        var isMyPenaltyIsActive = false;
+
+        var GetPenaltyStateForUserUrl = '@Html.Raw(Url.Action("GetPenaltyStateForUser", new {userName = User.Identity.Name}))';
+        var lobbyId = @Model.Id;
+
+        var lobbyStateWaiting = @((int) LobbyState.Waiting);
+        var lobbyStateFinished = @((int) LobbyState.Finished);
+        var lobbyStateActive = @((int) LobbyState.Active);
+
+        var currentViewerUserId = '@Model.CurrentViewerUserId';
+
+        var joinLobbyUrl = '@Html.Raw(Url.Action("JoinLobby", new {lobbyId = Model.Id, userName = User.Identity.Name}))';
+        var disJoinLobbyUrl = '@Html.Raw(Url.Action("DisjoinLobby", new {lobbyId = Model.Id, userName = User.Identity.Name}))';
+        var startLobbyUrl = '@Url.Action("StartLobby", new {id = Model.Id})';
+
+    </script>
+
+    <script src="~/Scripts/usersInLobby.js"></script>
+}

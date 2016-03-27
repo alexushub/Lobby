@@ -1,0 +1,46 @@
+﻿@using System.Threading.Tasks
+@using LobbyMVC5.DAL
+@model IEnumerable<LobbyMVC5.Models.ViewLobbyViewModel>
+
+@{
+    ViewData["Title"] = Resources.Resources.CurrentLobbiesStr;
+}
+
+<div>
+    <div class="row">
+        <div class="col-md-6">
+            <h2>@Resources.Resources.TwoUsersLobby</h2>
+
+            <table class="table table-responsive table-striped">
+                <tr id="lobbiesWith2UsersHeader" class="lobbiesWith2UsersRow">
+                    <th>@Resources.Resources.NameStr</th>
+                    <th>@Resources.Resources.CreatedStr</th>
+                    <th>@Resources.Resources.AuthorStr</th>
+                    <th>@Resources.Resources.RequiredUsersStr</th>
+                    <th>@Resources.Resources.CurrentUsersStr</th>
+                </tr>
+            </table>
+        </div>
+
+        <div class="col-md-6">
+            <h2>@Resources.Resources.FourUsersLobby</h2>
+            <table class="table table-responsive table-striped">
+                <tr id="lobbiesWith4UsersHeader" class="lobbiesWith4UsersRow">
+                    <th>@Resources.Resources.NameStr</th>
+                    <th>@Resources.Resources.CreatedStr</th>
+                    <th>@Resources.Resources.AuthorStr</th>
+                    <th>@Resources.Resources.RequiredUsersStr</th>
+                    <th>@Resources.Resources.CurrentUsersStr</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        var lobbyUrl = '@Url.Action("ViewLobby")';
+    </script>
+    
+    <script src="~/Scripts/lobbies.js"></script>
+}

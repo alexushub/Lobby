@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = Resources.Resources.UsersOnlineStr;
+}
+
+<div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-1">
+            <h2>@Resources.Resources.UsersOnlineStr</h2>
+            <p id="usersOnlineWait">@Resources.Resources.PleaseWait</p>
+            <table id="usersOnlineTable" class="table table-responsive table-striped">
+                @*@foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>
+                                @user.UserName
+                        </td>
+                    </tr>
+                    }*@
+            </table>
+        </div>
+    </div>
+</div>
