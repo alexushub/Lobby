@@ -1,6 +1,8 @@
-# LobbyAspNet4
+# Lobby
 
 Test task project for "Edison".
 The aim is develop the lobby-game simulator.
-Uses SignalR and Multilanguage UI.
+Asp.Net MVC5, SignalR.
+Multilanguage UI.
+
 Task file is in the root folder.
